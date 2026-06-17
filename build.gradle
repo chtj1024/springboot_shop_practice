@@ -1,0 +1,83 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.shop'
+version = '0.0.1-SNAPSHOT'
+description = 'Shop project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Querydsl JPA 라이브러리 (jakarta 필수)
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
+	// Querydsl APT (컴파일 시 QClass 생성기)
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+
+	// 이 아래 두 개가 빠지면 @Entity를 인식 못 할 수 있습니다
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// 웹의 header, footer, menu 등 공통 요소 관리를 쉽게하도록 도와주는
+	implementation ('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0') {
+		exclude group: 'org.codehaus.groovy'
+	}
+	implementation 'org.apache.groovy:groovy:4.0.24'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	implementation 'org.modelmapper:modelmapper:3.2.4'
+}
+
+def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.getGeneratedSourceOutputDirectory().set(querydslDir)
+}
+
+clean {
+	delete querydslDir
+}
+// 이 위 까지는 Querydsl과 Qdomain경로 설정
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
