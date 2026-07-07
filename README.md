@@ -22,3 +22,22 @@
   - 장바구니 삭제
   - 수량 변경
   - 장바구니에서 주문
+
+## 사용된 기술
+Backend
+- Java 21
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- QueryDSL
+DataBase
+- Mysql
+- H2
+FrontEnd
+- Thymeleaf
+- HTML/CSS
+- JavaScript
+ETC
+- Gradle
+- Git
+- Github
