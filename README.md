@@ -29,7 +29,7 @@ Backend
 - Spring Boot 3 
 - Spring Security 
 - Spring Data JPA 
-- QueryDSL  
+- QueryDSL   
 DataBase 
 - Mysql 
 - H2 
