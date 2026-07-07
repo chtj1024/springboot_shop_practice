@@ -66,6 +66,9 @@ Spring Security를 적용하여 인증 및 권한 관리를 구현하였으며 Q
   - Bean Validation을 이용한 입력값 검증
   - 예외 처리
 
+## 아키텍처
+Client - Thymeleaf - Controller - Service - Repository - Mysql
+
 ## 프로젝트를 통하여 얻은점
 - Spring Security를 활용한 로그인 및 권한(Role) 관리
 - QueryDSL을 이용한 동적 검색 구현
